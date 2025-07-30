@@ -513,3 +513,231 @@ variable "subnet_group_description" {
   type        = string
   default     = "Database subnet group for RDS"
 } 
+# ==============================================================================
+# Enhanced RDS Configuration Variables
+# ==============================================================================
+
+variable "enable_enhanced_monitoring" {
+  description = "Whether to enable enhanced monitoring"
+  type        = bool
+  default     = false
+}
+
+variable "enable_performance_insights" {
+  description = "Whether to enable performance insights"
+  type        = bool
+  default     = false
+}
+
+variable "enable_auto_scaling" {
+  description = "Whether to enable auto scaling"
+  type        = bool
+  default     = false
+}
+
+variable "auto_scaling_configuration" {
+  description = "Auto scaling configuration"
+  type = object({
+    min_capacity = number
+    max_capacity = number
+    target_cpu_utilization = optional(number, 70)
+    scale_in_cooldown = optional(number, 300)
+    scale_out_cooldown = optional(number, 300)
+  })
+  default = null
+}
+
+variable "enable_read_replica" {
+  description = "Whether to enable read replica"
+  type        = bool
+  default     = false
+}
+
+variable "read_replica_configuration" {
+  description = "Read replica configuration"
+  type = object({
+    identifier = string
+    instance_class = string
+    availability_zone = optional(string, null)
+    publicly_accessible = optional(bool, false)
+    auto_minor_version_upgrade = optional(bool, true)
+    monitoring_interval = optional(number, 0)
+    monitoring_role_arn = optional(string, null)
+    performance_insights_enabled = optional(bool, false)
+    performance_insights_kms_key_id = optional(string, null)
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_global_cluster" {
+  description = "Whether to enable global cluster"
+  type        = bool
+  default     = false
+}
+
+variable "global_cluster_configuration" {
+  description = "Global cluster configuration"
+  type = object({
+    global_cluster_identifier = string
+    source_db_cluster_identifier = optional(string, null)
+    engine = optional(string, null)
+    engine_version = optional(string, null)
+    database_name = optional(string, null)
+    storage_encrypted = optional(bool, true)
+    deletion_protection = optional(bool, false)
+  })
+  default = null
+}
+
+variable "enable_cluster_parameter_group" {
+  description = "Whether to enable cluster parameter group"
+  type        = bool
+  default     = false
+}
+
+variable "cluster_parameter_group_configuration" {
+  description = "Cluster parameter group configuration"
+  type = object({
+    name = string
+    family = string
+    description = optional(string, null)
+    parameters = optional(list(object({
+      name = string
+      value = string
+      apply_method = optional(string, "immediate")
+    })), [])
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_cluster_option_group" {
+  description = "Whether to enable cluster option group"
+  type        = bool
+  default     = false
+}
+
+variable "cluster_option_group_configuration" {
+  description = "Cluster option group configuration"
+  type = object({
+    name = string
+    engine_name = string
+    major_engine_version = string
+    description = optional(string, null)
+    options = optional(list(object({
+      option_name = string
+      port = optional(number, null)
+      db_security_group_memberships = optional(list(string), [])
+      vpc_security_group_memberships = optional(list(string), [])
+      option_settings = optional(list(object({
+        name = string
+        value = string
+      })), [])
+    })), [])
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_event_subscription" {
+  description = "Whether to enable event subscription"
+  type        = bool
+  default     = false
+}
+
+variable "event_subscription_configuration" {
+  description = "Event subscription configuration"
+  type = object({
+    name = string
+    sns_topic_arn = string
+    source_type = optional(string, "db-instance")
+    event_categories = optional(list(string), [])
+    source_ids = optional(list(string), [])
+    enabled = optional(bool, true)
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_proxy" {
+  description = "Whether to enable RDS proxy"
+  type        = bool
+  default     = false
+}
+
+variable "proxy_configuration" {
+  description = "RDS proxy configuration"
+  type = object({
+    name = string
+    debug_logging = optional(bool, false)
+    engine_family = string
+    idle_client_timeout = optional(number, 1800)
+    require_tls = optional(bool, true)
+    role_arn = string
+    vpc_security_group_ids = list(string)
+    vpc_subnet_ids = list(string)
+    auth = list(object({
+      auth_scheme = optional(string, "SECRETS")
+      description = optional(string, null)
+      iam_auth = optional(string, "DISABLED")
+      secret_arn = optional(string, null)
+    }))
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_snapshot_copy" {
+  description = "Whether to enable snapshot copy"
+  type        = bool
+  default     = false
+}
+
+variable "snapshot_copy_configuration" {
+  description = "Snapshot copy configuration"
+  type = object({
+    destination_region = string
+    retention_period = optional(number, 7)
+    copy_tags = optional(bool, false)
+    kms_key_id = optional(string, null)
+  })
+  default = null
+}
+
+variable "enable_cluster_snapshot" {
+  description = "Whether to enable cluster snapshot"
+  type        = bool
+  default     = false
+}
+
+variable "cluster_snapshot_configuration" {
+  description = "Cluster snapshot configuration"
+  type = object({
+    cluster_identifier = string
+    snapshot_identifier = string
+    tags = optional(map(string), {})
+  })
+  default = null
+}
+
+variable "enable_export_task" {
+  description = "Whether to enable export task"
+  type        = bool
+  default     = false
+}
+
+variable "export_task_configuration" {
+  description = "Export task configuration"
+  type = object({
+    export_task_identifier = string
+    source_arn = string
+    s3_bucket_name = string
+    iam_role_arn = string
+    kms_key_id = string
+    export_only = optional(list(string), [])
+    s3_prefix = optional(string, null)
+  })
+  default = null
+}
+
