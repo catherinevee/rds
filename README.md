@@ -119,6 +119,33 @@ This module creates the following AWS resources based on your configuration:
 | `aws_cloudwatch_log_group` | CloudWatch Log Group | Database log storage | `enable_cloudwatch_logs_exports` configured |
 | `aws_cloudwatch_log_group` | CloudWatch Log Group | Cluster log storage | `cluster_enable_cloudwatch_logs_exports` configured |
 
+### Advanced Features
+
+| Resource Type | AWS Resource | Purpose | Conditional |
+|---------------|--------------|---------|-------------|
+| **Auto Scaling** | | | |
+| `aws_appautoscaling_target` | Application Auto Scaling Target | Aurora cluster auto scaling | `enable_auto_scaling = true` |
+| `aws_appautoscaling_policy` | Application Auto Scaling Policy | Auto scaling policies | `enable_auto_scaling = true` |
+| **Read Replicas** | | | |
+| `aws_db_instance` | RDS Read Replica | Database read replicas | `enable_read_replica = true` |
+| **Global Clusters** | | | |
+| `aws_rds_global_cluster` | RDS Global Cluster | Cross-region Aurora clusters | `enable_global_cluster = true` |
+| **Parameter Groups** | | | |
+| `aws_db_parameter_group` | DB Parameter Group | Database parameter configuration | `enable_cluster_parameter_group = true` |
+| `aws_rds_cluster_parameter_group` | RDS Cluster Parameter Group | Cluster parameter configuration | `enable_cluster_parameter_group = true` |
+| **Option Groups** | | | |
+| `aws_db_option_group` | DB Option Group | Database option configuration | `enable_cluster_option_group = true` |
+| **Event Subscriptions** | | | |
+| `aws_db_event_subscription` | RDS Event Subscription | Database event notifications | `enable_event_subscription = true` |
+| **Proxies** | | | |
+| `aws_db_proxy` | RDS Proxy | Database connection pooling | `enable_proxy = true` |
+| `aws_db_proxy_default_target_group` | RDS Proxy Target Group | Proxy target configuration | `enable_proxy = true` |
+| **Snapshots** | | | |
+| `aws_db_snapshot` | RDS Snapshot | Database snapshots | `enable_cluster_snapshot = true` |
+| `aws_rds_cluster_snapshot` | RDS Cluster Snapshot | Cluster snapshots | `enable_cluster_snapshot = true` |
+| **Export Tasks** | | | |
+| `aws_rds_export_task` | RDS Export Task | Database export to S3 | `enable_export_task = true` |
+
 ### Resource Dependencies
 
 ```
@@ -126,16 +153,29 @@ RDS Instance
 ├── Security Group (if created)
 ├── DB Subnet Group (if created)
 ├── CloudWatch Log Groups (if enabled)
-└── KMS Key (if encryption enabled)
+├── KMS Key (if encryption enabled)
+├── Parameter Group (if custom parameters)
+├── Option Group (if custom options)
+├── Read Replica (if enabled)
+└── Event Subscription (if enabled)
 
 Aurora Cluster
 ├── Security Group (if created)
 ├── DB Subnet Group (if created)
 ├── CloudWatch Log Groups (if enabled)
 ├── KMS Key (if encryption enabled)
+├── Cluster Parameter Group (if custom parameters)
+├── Cluster Option Group (if custom options)
+├── Auto Scaling (if enabled)
+├── Global Cluster (if enabled)
+├── Event Subscription (if enabled)
+├── Proxy (if enabled)
+├── Snapshots (if enabled)
+├── Export Tasks (if enabled)
 └── Cluster Instances
     ├── Security Group
-    └── CloudWatch Log Groups
+    ├── CloudWatch Log Groups
+    └── Performance Insights
 ```
 
 ### Resource Naming Convention
@@ -151,6 +191,9 @@ Examples:
 - `my-database-subnet-group` (DB Subnet Group)
 - `my-aurora-cluster` (RDS Cluster)
 - `my-aurora-cluster-primary` (Cluster Instance)
+- `my-database-replica` (Read Replica)
+- `my-database-proxy` (RDS Proxy)
+- `my-database-snapshot` (Database Snapshot)
 
 ### Cost Considerations
 
@@ -160,6 +203,9 @@ Examples:
 - **Provisioned IOPS**: Additional costs for io1 storage type
 - **Multi-AZ**: Double compute costs for high availability
 - **Read Replicas**: Additional compute costs per replica
+- **RDS Proxy**: Additional costs for connection pooling
+- **Global Clusters**: Cross-region data transfer costs
+- **Performance Insights**: Additional monitoring costs
 
 **Cost Optimization Tips:**
 - Use appropriate instance classes for your workload
@@ -167,6 +213,8 @@ Examples:
 - Configure appropriate backup retention periods
 - Use gp2/gp3 storage for most workloads
 - Monitor Performance Insights usage
+- Use RDS Proxy for connection pooling efficiency
+- Implement proper tagging for cost allocation
 
 ## Inputs
 
