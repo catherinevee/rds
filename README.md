@@ -251,9 +251,27 @@ Examples:
 
 See the [examples](./examples) directory for complete working examples:
 
+### Getting Started
 - [Basic Example](./examples/basic) - Minimal RDS instance configuration
-- [Aurora Example](./examples/aurora) - Aurora cluster with read replicas
-- [Advanced Example](./examples/advanced) - Full-featured configuration with all capabilities
+- [Development Example](./examples/development) - Cost-optimized for development environments
+
+### Production Workloads
+- [Advanced Example](./examples/advanced) - Full-featured configuration with monitoring and security
+- [Enterprise Example](./examples/enterprise) - Maximum security, compliance, and monitoring
+- [Read Replica Example](./examples/read-replica) - Primary instance with read replicas for scaling
+
+### Database Engines
+- [MySQL Example](./examples/mysql) - MySQL-specific configurations and features
+- [PostgreSQL Example](./examples/postgresql) - PostgreSQL-specific configurations and features
+
+### Aurora Clusters
+- [Aurora Example](./examples/aurora) - Aurora MySQL cluster with read replicas
+- [Aurora PostgreSQL Example](./examples/aurora-postgresql) - Aurora PostgreSQL cluster configuration
+
+### Infrastructure Management
+- [Terragrunt Example](./examples/terragrunt) - Using the module with Terragrunt
+
+For detailed information about each example, see the [Examples README](./examples/README.md).
 
 ## Contributing
 
