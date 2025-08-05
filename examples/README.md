@@ -1,6 +1,6 @@
 # RDS Module Examples
 
-This directory contains comprehensive examples demonstrating various use cases and configurations for the AWS RDS Terraform module.
+Comprehensive examples demonstrating various use cases and configurations for the AWS RDS Terraform module.
 
 ## Example Overview
 
@@ -21,10 +21,10 @@ This directory contains comprehensive examples demonstrating various use cases a
 
 ### Prerequisites
 
-1. **Terraform**: Version 1.13.0 or later
-2. **AWS Provider**: Version 6.2.0
-3. **AWS CLI**: Configured with appropriate permissions
-4. **VPC and Subnets**: Available for database placement
+1. Terraform: Version 1.13.0 or later
+2. AWS Provider: Version 6.2.0
+3. AWS CLI: Configured with appropriate permissions
+4. VPC and Subnets: Available for database placement
 
 ### Basic Usage
 
@@ -229,9 +229,9 @@ performance_insights_retention_period = 31
 - Custom CloudWatch alarms
 
 ### Log Types by Engine
-- **MySQL**: `error`, `general`, `slow_query`
-- **PostgreSQL**: `postgresql`, `error`, `general`
-- **Aurora**: Additional `audit` logs
+- MySQL: `error`, `general`, `slow_query`
+- PostgreSQL: `postgresql`, `error`, `general`
+- Aurora: Additional `audit` logs
 
 ## Cost Optimization
 
@@ -275,22 +275,22 @@ performance_insights_retention_period = 31
 
 ### Common Issues
 
-1. **VPC Configuration**
+1. VPC Configuration
    - Ensure subnets are in the correct VPC
    - Verify subnet group configuration
    - Check security group rules
 
-2. **Authentication**
+2. Authentication
    - Verify username and password
    - Check IAM permissions
    - Ensure database name is valid
 
-3. **Storage**
+3. Storage
    - Verify storage type compatibility
    - Check IOPS requirements
    - Ensure sufficient storage allocation
 
-4. **Monitoring**
+4. Monitoring
    - Verify IAM role permissions
    - Check CloudWatch log configuration
    - Ensure Performance Insights is enabled
